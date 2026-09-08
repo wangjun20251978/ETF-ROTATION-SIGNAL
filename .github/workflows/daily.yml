@@ -1,0 +1,35 @@
+name: 每日更新 ETF 策略信号看板
+
+on:
+  schedule:
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 运行生成脚本（抓取行情 + 生成 index.html）
+        run: python build_skill_site.py
+
+      - name: 运行三因子轮动脚本（生成 rotation.html）
+        run: python build_rotation.py
+
+      - name: 提交并推送更新（若内容有变化）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "自动更新 $(date +'%Y-%m-%d %H:%M')"
+          git push
