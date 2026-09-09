@@ -2,7 +2,7 @@ name: 每日更新 ETF 策略信号看板
 
 on:
   schedule:
-    - cron: "0 23 * * *"
+    - cron: "0 10 * * 1-5"
   workflow_dispatch:
 
 permissions:
