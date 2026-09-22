@@ -2,6 +2,7 @@ name: 每日更新 ETF 策略信号看板
 on:
   schedule:
     - cron: "10 7 * * *"   # UTC 07:10 = 北京 15:10 收盘后
+    - cron: '30 23 * * *'  # 早场 UTC 23:30 = 北京7:30名义, 实际约9:10-10:00 早场
     - cron: '10 10 * * *'  # UTC 10:10 = 北京 18:10 兜底(schedule高峰可能被跳过)
   workflow_dispatch:
 permissions:
